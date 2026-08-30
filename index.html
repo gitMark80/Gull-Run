@@ -1,224 +1,42 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
-  <meta name="theme-color" content="#70c7e8" />
-  <title>Gull Run</title>
-  <style>
-    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{margin:0;height:100%;overflow:hidden;background:#65c7e8;font-family:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,Segoe UI,sans-serif;touch-action:none}
-    #wrap{position:fixed;inset:0;display:grid;place-items:center;background:linear-gradient(#68c8ea 0 62%,#18a9c2 62% 100%)}
-    canvas{display:block;width:100vw;height:100vh;max-width:520px;box-shadow:0 0 40px #0a648655;background:#74d2ef}
-    .hud{position:fixed;inset:0;pointer-events:none;display:flex;justify-content:center}
-    .topbar{width:min(100vw,520px);padding:max(14px,env(safe-area-inset-top)) 16px 0;display:flex;justify-content:space-between;align-items:flex-start;color:white;text-shadow:0 3px 0 #1b6f87;font-weight:900;font-size:18px}
-    .score{font-size:42px;line-height:1}
-    .pill{background:#0b6d8799;border:2px solid #ffffff99;border-radius:999px;padding:7px 11px;backdrop-filter:blur(5px)}
-    .overlay{position:fixed;inset:0;display:grid;place-items:center;padding:22px;pointer-events:none}
-    .card{pointer-events:auto;width:min(90vw,390px);background:#fffdf2ef;border:4px solid #174e63;border-radius:28px;padding:22px;text-align:center;box-shadow:0 14px 0 #174e63,0 24px 50px #0b536766;color:#153e4e}
-    h1{font-size:46px;line-height:.9;margin:0 0 10px;letter-spacing:-2px;color:#e15f45;text-shadow:0 3px 0 #ffd268}
-    .sub{font-weight:800;margin:0 0 15px;font-size:16px}
-    .btns{display:grid;gap:10px;margin-top:14px}
-    button{appearance:none;border:0;border-radius:16px;padding:13px 14px;font:900 18px inherit;cursor:pointer;color:white;background:#e15f45;box-shadow:0 5px 0 #9d3b2b}
-    button:active{transform:translateY(3px);box-shadow:0 2px 0 #9d3b2b}
-    button.secondary{background:#1d9abb;box-shadow:0 5px 0 #126d85}
-    .tiny{font-size:13px;opacity:.8;margin-top:12px;font-weight:700}
-    .hidden{display:none}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+<meta name="theme-color" content="#66c7e8" />
+<title>Gull Run</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;height:100%;overflow:hidden;background:#63c5e6;font-family:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,Segoe UI,sans-serif;touch-action:none}#wrap{position:fixed;inset:0;display:grid;place-items:center;background:linear-gradient(#69cbea 0 62%,#168fae 62% 100%)}canvas{display:block;width:100vw;height:100vh;max-width:520px;background:#76d3ef}.hud{position:fixed;inset:0;display:flex;justify-content:center;pointer-events:none}.topbar{width:min(100vw,520px);padding:max(5px,env(safe-area-inset-top)) 10px 0;display:flex;justify-content:space-between;align-items:flex-start;color:#fff;text-shadow:0 2px 0 #17657d;font-weight:900;font-size:13px}.score{font-size:28px;line-height:1;padding-top:2px}.pill{background:#0a6b8299;border:1px solid #ffffff99;border-radius:999px;padding:4px 8px;backdrop-filter:blur(4px)}.overlay{position:fixed;inset:0;display:grid;place-items:center;padding:20px;pointer-events:none}.card{pointer-events:auto;width:min(88vw,370px);background:#fffdf2ef;border:3px solid #174e63;border-radius:24px;padding:20px;text-align:center;box-shadow:0 10px 0 #174e63,0 20px 40px #0b536755;color:#153e4e}h1{font-size:44px;line-height:.9;margin:0 0 10px;letter-spacing:-2px;color:#e15f45;text-shadow:0 3px 0 #ffd268}.sub{font-weight:800;margin:0 0 14px;font-size:16px}.btns{display:grid;gap:10px;margin-top:12px}button{appearance:none;border:0;border-radius:15px;padding:12px 14px;font:900 17px inherit;cursor:pointer;color:white;background:#e15f45;box-shadow:0 5px 0 #9d3b2b}button.secondary{background:#1d9abb;box-shadow:0 5px 0 #126d85}.tiny{font-size:12px;opacity:.78;margin-top:11px;font-weight:700}.hidden{display:none}
+</style>
 </head>
 <body>
 <div id="wrap"><canvas id="game"></canvas></div>
-<div class="hud"><div class="topbar"><div class="pill">🏆 <span id="best">0</span></div><div class="score" id="score">0</div><div class="pill" id="skinLabel">SEAGULL</div></div></div>
-<div class="overlay" id="overlay">
-  <div class="card">
-    <h1>GULL<br>RUN</h1>
-    <p class="sub" id="message">Tap to flap through the harbor and dodge the boat traffic!</p>
-    <div class="btns">
-      <button id="play">PLAY</button>
-      <button class="secondary" id="skin">SWITCH TO BROWN BIRD</button>
-    </div>
-    <div class="tiny">Tap anywhere or press SPACE to flap • Best score saves on this device</div>
-  </div>
-</div>
+<div class="hud"><div class="topbar"><div class="pill">🏆 <span id="best">0</span></div><div class="score" id="score">0</div><div class="pill" id="skinLabel">GULL</div></div></div>
+<div class="overlay" id="overlay"><div class="card"><h1>GULL<br>RUN</h1><p class="sub" id="message">Flap through the harbor and dodge moving boat traffic.</p><div class="btns"><button id="play">PLAY</button><button class="secondary" id="skin">SWITCH BIRD</button></div><div class="tiny">Tap anywhere or press SPACE to flap • Best score saves on this device</div></div></div>
 <script>
-(() => {
-  const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
-  const overlay = document.getElementById('overlay');
-  const playBtn = document.getElementById('play');
-  const skinBtn = document.getElementById('skin');
-  const message = document.getElementById('message');
-  const scoreEl = document.getElementById('score');
-  const bestEl = document.getElementById('best');
-  const skinLabel = document.getElementById('skinLabel');
-
-  let W=390,H=844,dpr=1;
-  let running=false, started=false, last=0, score=0, best=+(localStorage.getItem('gullRunBest')||0);
-  let skin=localStorage.getItem('gullRunSkin')||'seagull';
-  let bird, obstacles=[], bubbles=[], clouds=[], spawnTimer=0, speed=190;
-
-  bestEl.textContent=best;
-  syncSkinUI();
-
-  function resize(){
-    const maxW=520;
-    const cssW=Math.min(innerWidth,maxW), cssH=innerHeight;
-    dpr=Math.min(devicePixelRatio||1,2);
-    canvas.width=Math.round(cssW*dpr); canvas.height=Math.round(cssH*dpr);
-    canvas.style.width=cssW+'px'; canvas.style.height=cssH+'px';
-    W=cssW; H=cssH; ctx.setTransform(dpr,0,0,dpr,0,0);
-    makeClouds();
-  }
-  addEventListener('resize',resize,{passive:true}); resize();
-
-  function makeClouds(){
-    clouds=Array.from({length:7},(_,i)=>({x:(i/7)*W+Math.random()*70,y:50+Math.random()*H*.42,s:20+Math.random()*28,v:8+Math.random()*10}));
-  }
-
-  function reset(){
-    score=0; speed=190; spawnTimer=0; obstacles=[]; bubbles=[];
-    bird={x:W*.27,y:H*.38,vy:0,r:18,rot:0,wing:0};
-    scoreEl.textContent='0';
-    running=true; started=false; overlay.classList.add('hidden');
-  }
-
-  function startGame(){ reset(); setTimeout(()=>flap(),80); }
-  playBtn.addEventListener('click',startGame);
-  skinBtn.addEventListener('click',()=>{skin=skin==='seagull'?'brown':'seagull';localStorage.setItem('gullRunSkin',skin);syncSkinUI();});
-  function syncSkinUI(){
-    skinLabel.textContent=skin==='seagull'?'SEAGULL':'BROWN BIRD';
-    skinBtn.textContent=skin==='seagull'?'SWITCH TO BROWN BIRD':'SWITCH TO SEAGULL';
-  }
-
-  function flap(){
-    if(!running) return;
-    started=true; bird.vy=-360; bird.wing=1;
-    tone(520,.035,.025);
-  }
-  function input(e){
-    if(e?.target?.tagName==='BUTTON') return;
-    if(running){ e?.preventDefault?.(); flap(); }
-  }
-  addEventListener('pointerdown',input,{passive:false});
-  addEventListener('keydown',e=>{ if(e.code==='Space'){e.preventDefault(); if(running) flap(); else startGame();}});
-
-  let audioCtx;
-  function tone(freq,dur,vol){
-    try{audioCtx ||= new (AudioContext||webkitAudioContext)(); const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='triangle';o.frequency.value=freq;g.gain.setValueAtTime(vol,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur)}catch{}
-  }
-
-  function spawnObstacle(){
-    const types=['speed','sail','fishing'];
-    const type=types[Math.floor(Math.random()*types.length)];
-    const dir=Math.random()<.28?-1:1;
-    const h=type==='sail'?142:type==='fishing'?92:62;
-    const w=type==='sail'?96:type==='fishing'?112:105;
-    const waterTop=H*.64;
-    const x=dir===1?W+80:-w-80;
-    const vx=(dir===1?-speed:speed*.8);
-    obstacles.push({x,y:waterTop-h*.25,w,h,type,vx,passed:false,bob:Math.random()*6.28});
-  }
-
-  function collide(b,o){
-    const pad=5, bx=b.x-pad, by=b.y-pad, br=b.r-pad;
-    let rx=o.x+8, rw=o.w-16, top;
-    if(o.type==='sail') top=o.y-o.h*.72;
-    else if(o.type==='fishing') top=o.y-o.h*.35;
-    else top=o.y-o.h*.12;
-    const bottom=H*.79;
-    const cx=Math.max(rx,Math.min(bx,rx+rw));
-    const cy=Math.max(top,Math.min(by, bottom));
-    return (bx-cx)*(bx-cx)+(by-cy)*(by-cy) < br*br;
-  }
-
-  function gameOver(){
-    running=false; tone(120,.18,.05);
-    if(score>best){best=score;localStorage.setItem('gullRunBest',best);bestEl.textContent=best;message.textContent=`New best: ${score}! You own the harbor.`;}
-    else message.textContent=`Score: ${score}. Tap PLAY and take another flight!`;
-    playBtn.textContent='PLAY AGAIN'; overlay.classList.remove('hidden');
-  }
-
-  function update(dt){
-    for(const c of clouds){c.x-=c.v*dt;if(c.x<-80)c.x=W+80;}
-    if(!running) return;
-    if(started){
-      bird.vy += 1040*dt; bird.y += bird.vy*dt; bird.rot=Math.max(-.45,Math.min(1.15,bird.vy/520)); bird.wing=Math.max(0,bird.wing-dt*4);
-    }
-    spawnTimer-=dt;
-    if(spawnTimer<=0){spawnObstacle(); spawnTimer=Math.max(.82,1.5-score*.012)+Math.random()*.45;}
-    speed=Math.min(320,190+score*3.2);
-    for(const o of obstacles){
-      o.x+=o.vx*dt*(speed/190); o.bob+=dt*2.8;
-      if(!o.passed && ((o.vx<0 && o.x+o.w<bird.x)||(o.vx>0 && o.x>bird.x))){o.passed=true;score++;scoreEl.textContent=score;tone(780,.05,.03);}
-      if(collide(bird,o)) gameOver();
-    }
-    obstacles=obstacles.filter(o=>o.x>-220&&o.x<W+220);
-    if(bird.y<-25 || bird.y>H*.82) gameOver();
-    if(Math.random()<dt*8)bubbles.push({x:Math.random()*W,y:H*.87+Math.random()*H*.1,r:1+Math.random()*3,v:12+Math.random()*24});
-    for(const b of bubbles)b.y-=b.v*dt;
-    bubbles=bubbles.filter(b=>b.y>H*.62);
-  }
-
-  function drawCloud(c){
-    ctx.fillStyle='#fff';ctx.globalAlpha=.82;ctx.beginPath();ctx.arc(c.x,c.y,c.s*.55,0,7);ctx.arc(c.x+c.s*.55,c.y-5,c.s*.7,0,7);ctx.arc(c.x+c.s*1.1,c.y,c.s*.5,0,7);ctx.fill();ctx.globalAlpha=1;
-  }
-  function drawBackground(t){
-    const water=H*.64;
-    const sky=ctx.createLinearGradient(0,0,0,water);sky.addColorStop(0,'#65c6e9');sky.addColorStop(1,'#d6f6ff');ctx.fillStyle=sky;ctx.fillRect(0,0,W,water);
-    clouds.forEach(drawCloud);
-    ctx.fillStyle='#0c91b3';ctx.fillRect(0,water,W,H-water);
-    ctx.fillStyle='#32bdd4';for(let y=water+18;y<H;y+=28){for(let x=-40;x<W+40;x+=72){const ox=((t*.025+y*.7)%72);ctx.fillRect(x+ox,y,36,3)}}
-    ctx.fillStyle='#d6ae65';ctx.fillRect(0,H*.84,W,H*.16);
-    ctx.fillStyle='#edd28e';ctx.fillRect(0,H*.84,W,8);
-    for(const b of bubbles){ctx.strokeStyle='#bdf6ff99';ctx.lineWidth=1;ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,7);ctx.stroke();}
-    ctx.fillStyle='#166b6888';
-    for(let x=0;x<W;x+=56){ctx.beginPath();ctx.moveTo(x,water);ctx.lineTo(x+22,water-12-(x%3)*3);ctx.lineTo(x+50,water);ctx.fill();}
-  }
-
-  function drawBoat(o){
-    const bob=Math.sin(o.bob)*3; const x=o.x,y=o.y+bob,w=o.w,h=o.h;
-    ctx.save(); if(o.vx>0){ctx.translate(x+w/2,0);ctx.scale(-1,1);ctx.translate(-(x+w/2),0)}
-    ctx.fillStyle='#153e50';ctx.beginPath();ctx.moveTo(x+4,y);ctx.lineTo(x+w-4,y);ctx.lineTo(x+w-22,y+28);ctx.lineTo(x+20,y+28);ctx.closePath();ctx.fill();
-    ctx.fillStyle='#f6f2df';ctx.fillRect(x+w*.34,y-18,w*.36,18);
-    if(o.type==='speed'){
-      ctx.fillStyle='#e65643';ctx.fillRect(x+16,y-5,w*.65,6);ctx.fillStyle='#9de8f5';ctx.fillRect(x+w*.42,y-15,w*.2,9);
-    } else if(o.type==='fishing'){
-      ctx.fillStyle='#e8c75d';ctx.fillRect(x+w*.28,y-24,w*.28,7);ctx.strokeStyle='#49372a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x+w*.47,y-24);ctx.lineTo(x+w*.47,y-h*.62);ctx.stroke();ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+w*.47,y-h*.55);ctx.lineTo(x+w*.82,y-18);ctx.stroke();
-    } else {
-      ctx.strokeStyle='#4b3f35';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x+w*.5,y-8);ctx.lineTo(x+w*.5,y-h*.88);ctx.stroke();
-      ctx.fillStyle='#fff8e8';ctx.beginPath();ctx.moveTo(x+w*.52,y-h*.82);ctx.lineTo(x+w*.52,y-18);ctx.lineTo(x+w*.92,y-18);ctx.closePath();ctx.fill();
-      ctx.fillStyle='#e9654c';ctx.beginPath();ctx.moveTo(x+w*.48,y-h*.76);ctx.lineTo(x+w*.48,y-20);ctx.lineTo(x+w*.18,y-20);ctx.closePath();ctx.fill();
-    }
-    ctx.strokeStyle='#d8fbff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x-20,y+24);ctx.quadraticCurveTo(x-5,y+12,x+16,y+25);ctx.stroke();ctx.restore();
-  }
-
-  function drawBird(){
-    const b=bird||{x:W*.27,y:H*.38,rot:0,wing:0};ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.rot||0);
-    if(skin==='seagull'){
-      ctx.fillStyle='#f7f5ec';ctx.beginPath();ctx.ellipse(0,0,22,15,0,0,7);ctx.fill();
-      ctx.fillStyle='#dfe4e4';ctx.beginPath();ctx.ellipse(-4,5,18,7,-.35,0,7);ctx.fill();
-      ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(15,-8,10,0,7);ctx.fill();
-      ctx.fillStyle='#222';ctx.beginPath();ctx.arc(18,-10,2.2,0,7);ctx.fill();
-      ctx.fillStyle='#f2ae32';ctx.beginPath();ctx.moveTo(24,-8);ctx.lineTo(36,-4);ctx.lineTo(24,-1);ctx.closePath();ctx.fill();
-      ctx.strokeStyle='#253b43';ctx.lineWidth=4;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-7,3);ctx.lineTo(-23, -4-(b.wing||0)*10);ctx.stroke();
-    } else {
-      ctx.fillStyle='#8f5b35';ctx.beginPath();ctx.ellipse(0,0,21,16,0,0,7);ctx.fill();
-      ctx.fillStyle='#a96f43';ctx.beginPath();ctx.arc(14,-8,10,0,7);ctx.fill();
-      ctx.fillStyle='#5e3a22';ctx.beginPath();ctx.ellipse(-8,4,14,7,-.3,0,7);ctx.fill();
-      ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(18,-10,4,0,7);ctx.fill();ctx.fillStyle='#111';ctx.beginPath();ctx.arc(19,-10,2,0,7);ctx.fill();
-      ctx.fillStyle='#e0a326';ctx.beginPath();ctx.moveTo(24,-8);ctx.lineTo(34,-4);ctx.lineTo(24,-1);ctx.closePath();ctx.fill();
-      ctx.strokeStyle='#5e3a22';ctx.lineWidth=5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-8,4);ctx.lineTo(-24,-4-(b.wing||0)*10);ctx.stroke();
-    }
-    ctx.restore();
-  }
-
-  function draw(t){
-    ctx.clearRect(0,0,W,H);drawBackground(t);obstacles.forEach(drawBoat);drawBird();
-    if(running&&!started){ctx.fillStyle='#174e63aa';ctx.font='900 18px system-ui';ctx.textAlign='center';ctx.fillText('TAP TO FLAP',W/2,H*.52)}
-  }
-
-  function loop(t){const dt=Math.min(.035,(t-last)/1000||0);last=t;update(dt);draw(t);requestAnimationFrame(loop)}
-  requestAnimationFrame(loop);
+(()=>{
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),overlay=document.getElementById('overlay'),playBtn=document.getElementById('play'),skinBtn=document.getElementById('skin'),message=document.getElementById('message'),scoreEl=document.getElementById('score'),bestEl=document.getElementById('best'),skinLabel=document.getElementById('skinLabel');
+let W=390,H=844,dpr=1,running=false,started=false,last=0,score=0,best=+(localStorage.getItem('gullRunBest')||0),skin=localStorage.getItem('gullRunSkin')||'seagull',bird,boats=[],clouds=[],spawn=0,baseSpeed=150,tick=0;
+bestEl.textContent=best;syncSkin();
+function resize(){W=Math.min(innerWidth,520);H=innerHeight;dpr=Math.min(devicePixelRatio||1,2);canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);clouds=Array.from({length:6},(_,i)=>({x:i*W/5,y:55+Math.random()*H*.28,s:18+Math.random()*25,v:6+Math.random()*9}))}addEventListener('resize',resize,{passive:true});resize();
+function syncSkin(){skinLabel.textContent=skin==='seagull'?'GULL':'BROWN';skinBtn.textContent=skin==='seagull'?'SWITCH TO BROWN BIRD':'SWITCH TO SEAGULL'}
+function reset(){score=0;baseSpeed=150;spawn=.15;boats=[];bird={x:W*.26,y:H*.39,vy:0,r:17,rot:0,flap:0,phase:0};scoreEl.textContent='0';running=true;started=false;overlay.classList.add('hidden')}
+function startGame(){reset();setTimeout(flap,90)}playBtn.addEventListener('click',startGame);skinBtn.addEventListener('click',()=>{skin=skin==='seagull'?'brown':'seagull';localStorage.setItem('gullRunSkin',skin);syncSkin()});
+function flap(){if(!running)return;started=true;bird.vy=-345;bird.flap=1}addEventListener('pointerdown',e=>{if(e.target?.tagName!=='BUTTON'&&running){e.preventDefault();flap()}},{passive:false});addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();running?flap():startGame()}});
+const specs={speed:{w:95,h:44,s:.95},sail:{w:100,h:115,s:.72},fishing:{w:116,h:80,s:.72},yacht:{w:132,h:62,s:.62},tug:{w:110,h:68,s:.67},ferry:{w:155,h:78,s:.52},cargo:{w:190,h:105,s:.44},cruise:{w:215,h:126,s:.38},jetski:{w:66,h:34,s:1.15}};
+function spawnBoat(){const pool=['speed','speed','sail','fishing','yacht','tug','ferry','cargo','cruise','jetski'],type=pool[Math.floor(Math.random()*pool.length)],sp=specs[type],fromRight=Math.random()>.32,water=H*.67;boats.push({type,w:sp.w,h:sp.h,x:fromRight?W+sp.w+20:-sp.w-20,y:water+Math.random()*H*.105,v:(fromRight?-1:1)*baseSpeed*sp.s,phase:Math.random()*6.28,passed:false})}
+function topFor(o){const y=o.y+Math.sin(o.phase)*2;return o.type==='sail'?y-o.h*.78:o.type==='cruise'?y-o.h*.50:o.type==='cargo'?y-o.h*.46:o.type==='ferry'?y-o.h*.38:o.type==='tug'?y-o.h*.34:o.type==='fishing'?y-o.h*.38:o.type==='yacht'?y-o.h*.28:o.type==='jetski'?y-o.h*.12:y-o.h*.15}
+function hit(o){const top=topFor(o),bottom=o.y+32,rx=o.x+7,rw=o.w-14,cx=Math.max(rx,Math.min(bird.x,rx+rw)),cy=Math.max(top,Math.min(bird.y,bottom)),r=bird.r-5;return (bird.x-cx)**2+(bird.y-cy)**2<r*r}
+function gameOver(){running=false;if(score>best){best=score;localStorage.setItem('gullRunBest',best);bestEl.textContent=best;message.textContent=`New best: ${score}!`}else message.textContent=`Score: ${score}. Ready for another run?`;playBtn.textContent='PLAY AGAIN';overlay.classList.remove('hidden')}
+function update(dt){tick+=dt;for(const c of clouds){c.x-=c.v*dt;if(c.x<-90)c.x=W+50}if(!running)return;bird.phase+=dt*8;bird.flap=Math.max(0,bird.flap-dt*5);if(started){bird.vy+=980*dt;bird.y+=bird.vy*dt;bird.rot=Math.max(-.42,Math.min(.95,bird.vy/560))}else bird.y=H*.39+Math.sin(tick*3)*7;spawn-=dt;if(spawn<=0){spawnBoat();spawn=Math.max(.85,1.55-score*.015)+Math.random()*.55}baseSpeed=Math.min(245,150+score*3);for(const o of boats){o.x+=o.v*dt*(baseSpeed/150);o.phase+=dt*2.2;if(!o.passed&&((o.v<0&&o.x+o.w<bird.x)||(o.v>0&&o.x>bird.x))){o.passed=true;score++;scoreEl.textContent=score}if(hit(o))gameOver()}boats=boats.filter(o=>o.x>-280&&o.x<W+280);if(bird.y<-20||bird.y>H*.88)gameOver()}
+function drawCloud(c){ctx.globalAlpha=.82;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(c.x,c.y,c.s*.55,0,7);ctx.arc(c.x+c.s*.55,c.y-5,c.s*.72,0,7);ctx.arc(c.x+c.s*1.08,c.y,c.s*.5,0,7);ctx.fill();ctx.globalAlpha=1}
+function bg(t){const water=H*.63,g=ctx.createLinearGradient(0,0,0,water);g.addColorStop(0,'#62c4e7');g.addColorStop(1,'#dff8ff');ctx.fillStyle=g;ctx.fillRect(0,0,W,water);clouds.forEach(drawCloud);ctx.fillStyle='#0c8dab';ctx.fillRect(0,water,W,H-water);ctx.strokeStyle='#42c8da';ctx.lineWidth=3;for(let y=water+16;y<H;y+=29){ctx.beginPath();for(let x=-30;x<W+40;x+=60){let ox=(t*.025+y)%60;ctx.moveTo(x+ox,y);ctx.lineTo(x+ox+28,y)}ctx.stroke()}ctx.fillStyle='#d8b36b';ctx.fillRect(0,H*.9,W,H*.1)}
+function hull(x,y,w,color='#153e50'){ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(x+2,y);ctx.lineTo(x+w-2,y);ctx.lineTo(x+w-18,y+27);ctx.lineTo(x+18,y+27);ctx.closePath();ctx.fill()}
+function windows(x,y,n,step){ctx.fillStyle='#9ee8f6';for(let i=0;i<n;i++)ctx.fillRect(x+i*step,y,7,6)}
+function drawBoat(o){let x=o.x,y=o.y+Math.sin(o.phase)*2,w=o.w,h=o.h;ctx.save();if(o.v>0){ctx.translate(x+w/2,0);ctx.scale(-1,1);ctx.translate(-(x+w/2),0)}hull(x,y,w,o.type==='cargo'?'#6a3528':o.type==='cruise'?'#294c69':'#153e50');if(o.type==='speed'){ctx.fillStyle='#ed6047';ctx.fillRect(x+14,y-5,w*.62,6);ctx.fillStyle='#dffaff';ctx.fillRect(x+w*.48,y-17,w*.22,12)}else if(o.type==='sail'){ctx.strokeStyle='#49372a';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x+w*.5,y);ctx.lineTo(x+w*.5,y-h*.8);ctx.stroke();ctx.fillStyle='#fff7e7';ctx.beginPath();ctx.moveTo(x+w*.52,y-h*.74);ctx.lineTo(x+w*.52,y-6);ctx.lineTo(x+w*.92,y-6);ctx.closePath();ctx.fill();ctx.fillStyle='#e9654c';ctx.beginPath();ctx.moveTo(x+w*.47,y-h*.68);ctx.lineTo(x+w*.47,y-8);ctx.lineTo(x+w*.17,y-8);ctx.closePath();ctx.fill()}else if(o.type==='fishing'){ctx.fillStyle='#f0cc5c';ctx.fillRect(x+w*.26,y-23,w*.3,20);ctx.strokeStyle='#49372a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x+w*.48,y-23);ctx.lineTo(x+w*.48,y-h*.6);ctx.lineTo(x+w*.8,y-18);ctx.stroke()}else if(o.type==='yacht'){ctx.fillStyle='#fff';ctx.fillRect(x+w*.28,y-25,w*.52,25);ctx.fillStyle='#73cce3';ctx.beginPath();ctx.moveTo(x+w*.38,y-21);ctx.lineTo(x+w*.68,y-21);ctx.lineTo(x+w*.75,y-7);ctx.lineTo(x+w*.33,y-7);ctx.closePath();ctx.fill()}else if(o.type==='tug'){ctx.fillStyle='#e9d05f';ctx.fillRect(x+w*.3,y-33,w*.4,33);ctx.fillStyle='#cc4a38';ctx.fillRect(x+w*.42,y-47,w*.14,14);windows(x+w*.36,y-25,3,14)}else if(o.type==='ferry'){ctx.fillStyle='#f7f4e8';ctx.fillRect(x+w*.12,y-38,w*.76,38);windows(x+w*.18,y-31,6,16);ctx.fillStyle='#e35643';ctx.fillRect(x+w*.42,y-53,w*.16,15)}else if(o.type==='cargo'){ctx.fillStyle='#f0b347';for(let i=0;i<4;i++)ctx.fillRect(x+18+i*34,y-25,30,23);ctx.fillStyle='#e9ece8';ctx.fillRect(x+w*.72,y-42,w*.19,42);windows(x+w*.75,y-34,2,15)}else if(o.type==='cruise'){ctx.fillStyle='#f7f7f2';ctx.fillRect(x+w*.12,y-62,w*.76,62);ctx.fillStyle='#56a8c5';for(let r=0;r<3;r++)windows(x+w*.18,y-52+r*14,9,16);ctx.fillStyle='#e4d255';ctx.fillRect(x+w*.72,y-79,w*.10,17);ctx.fillStyle='#ef694c';ctx.fillRect(x+w*.17,y-6,w*.64,6)}else if(o.type==='jetski'){ctx.fillStyle='#f3b32b';ctx.beginPath();ctx.moveTo(x+4,y);ctx.lineTo(x+w-4,y);ctx.lineTo(x+w-16,y+15);ctx.lineTo(x+10,y+15);ctx.closePath();ctx.fill();ctx.fillStyle='#222';ctx.beginPath();ctx.arc(x+w*.5,y-12,7,0,7);ctx.fill();ctx.strokeStyle='#222';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x+w*.48,y-5);ctx.lineTo(x+w*.63,y-1);ctx.stroke()}ctx.strokeStyle='#d7f8ff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x-18,y+22);ctx.quadraticCurveTo(x,y+11,x+18,y+23);ctx.stroke();ctx.restore()}
+function drawBird(){const b=bird||{x:W*.26,y:H*.39,rot:0,phase:0,flap:0};const wingLift=Math.sin(b.phase)*7-b.flap*12,bodyBob=running?Math.sin(b.phase*.6)*1.5:Math.sin(tick*3)*2;ctx.save();ctx.translate(b.x,b.y+bodyBob);ctx.rotate(b.rot||0);if(skin==='seagull'){ctx.fillStyle='#f7f5ec';ctx.beginPath();ctx.ellipse(0,0,22,15,0,0,7);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(15,-8,10,0,7);ctx.fill();ctx.strokeStyle='#59666c';ctx.lineWidth=5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(-7,2);ctx.quadraticCurveTo(-20,-8+wingLift,-29,2+wingLift*.3);ctx.stroke();ctx.fillStyle='#222';ctx.beginPath();ctx.arc(18,-10,2.2,0,7);ctx.fill();ctx.fillStyle='#efac35';ctx.beginPath();ctx.moveTo(24,-8);ctx.lineTo(36,-4);ctx.lineTo(24,-1);ctx.closePath();ctx.fill()}else{ctx.fillStyle='#8f5b35';ctx.beginPath();ctx.ellipse(0,0,21,16,0,0,7);ctx.fill();ctx.fillStyle='#a96f43';ctx.beginPath();ctx.arc(14,-8,10,0,7);ctx.fill();ctx.strokeStyle='#5e3a22';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-7,3);ctx.quadraticCurveTo(-20,-7+wingLift,-28,3+wingLift*.3);ctx.stroke();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(18,-10,4,0,7);ctx.fill();ctx.fillStyle='#111';ctx.beginPath();ctx.arc(19,-10,2,0,7);ctx.fill();ctx.fillStyle='#e0a326';ctx.beginPath();ctx.moveTo(24,-8);ctx.lineTo(34,-4);ctx.lineTo(24,-1);ctx.closePath();ctx.fill()}ctx.restore()}
+function draw(t){ctx.clearRect(0,0,W,H);bg(t);boats.forEach(drawBoat);drawBird();if(running&&!started){ctx.fillStyle='#174e63bb';ctx.font='900 17px system-ui';ctx.textAlign='center';ctx.fillText('TAP TO FLAP',W/2,H*.5)}}
+function loop(t){const dt=Math.min(.034,(t-last)/1000||0);last=t;update(dt);draw(t);requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 </script>
 </body>
