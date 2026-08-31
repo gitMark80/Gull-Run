@@ -6,6 +6,10 @@ Generated with the built-in image generation workflow. These are the final produ
 
 Create a four-frame wing-flap animation sheet of the exact same expressive heroic seagull. Use a genuinely transparent background; white and pale-gray feathers, golden beak, large determined friendly eye, thick navy-gray outline, premium hand-painted 2D creature-adventure art, bright anime-inspired cel shading, and crisp mobile-game edges. Arrange four equal horizontal cells: wings fully up, halfway up, level, and fully down. Keep scale, body center, head position, baseline, and padding identical. No text, scenery, shadows, target rings, or extra birds.
 
+## Expanded bird animation
+
+Create four-frame side-view wing-flap strips for each active hero bird (hatchling gull, pelican, osprey, bald eagle, and albatross) and each active enemy bird (crow, heron, hawk, and vulture). Match the hero gull's motion cycle: wings down, level, rising, and fully up. Preserve each species' colors, markings, proportions, expression, center point, and footprint across frames. Use polished hand-painted mobile-game art, crisp navy contours, soft dimensional shading, and genuinely transparent backgrounds. No Falcon, labels, dividers, text, watermark, glow, target outline, duplicate bird, extra body parts, or cropped wings.
+
 ## Evolution forms
 
 Create a 3×3 sheet containing a hatchling gull, young gull, adult seagull, pelican, osprey, bald eagle, albatross, pterodactyl, and teal sky dragon. Use complete right-facing flying silhouettes, cohesive premium 2D cel-shaded creature-adventure art, crisp navy outlines, and recognizable natural colors with warm gold accents. The first three gulls must share one growing hero identity. No labels, UI, scenery, or extra figures.

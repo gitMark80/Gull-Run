@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare generated Gull Run art sheets as transparent, named game assets."""
 
+import argparse
 from collections import deque
 from pathlib import Path
 
@@ -121,6 +122,62 @@ def save_sheet_assets(
         fit_square(cell, size, max(20, size // 16)).save(PACK / destination / f"{name}.png")
 
 
+def prepare_animation_source(source_name: str, background_threshold: int) -> Image.Image:
+    source = open_source(source_name).convert("RGBA")
+    if source.getchannel("A").getextrema()[0] < 255:
+        return source
+    return remove_smooth_background(source, background_threshold)
+
+
+def save_animation_sheet(
+    source_name: str,
+    rows: list[str],
+    destination: str,
+    background_threshold: int,
+) -> None:
+    transparent = prepare_animation_source(source_name, background_threshold)
+    transparent.save(SOURCE / f"{source_name}-alpha.png")
+    poses = ["down", "level", "rising", "up"]
+    cells = list(split_grid(transparent, 4, len(rows)))
+    output = PACK / destination / "animations"
+    output.mkdir(parents=True, exist_ok=True)
+    for species, pose, cell in zip(
+        (species for species in rows for _ in poses),
+        poses * len(rows),
+        cells,
+        strict=True,
+    ):
+        frame = fit_square(keep_largest_component(cell), 512, 28)
+        path = output / f"{species}-{pose}.webp"
+        for _ in range(3):
+            frame.save(path, "WEBP", lossless=True, method=4)
+            if path.stat().st_size > 0:
+                break
+        else:
+            raise OSError(f"Failed to encode {path}")
+
+
+def build_animation_assets() -> None:
+    save_animation_sheet(
+        "hero-animation-sheet-4x4",
+        ["hatchling-gull", "pelican", "osprey", "bald-eagle"],
+        "player",
+        24,
+    )
+    save_animation_sheet(
+        "albatross-animation-sheet-4x1",
+        ["albatross"],
+        "player",
+        12,
+    )
+    save_animation_sheet(
+        "enemy-animation-sheet-4x4",
+        ["crow", "heron", "hawk", "vulture"],
+        "enemies",
+        24,
+    )
+
+
 def main() -> None:
     save_hero_frames()
 
@@ -145,6 +202,8 @@ def main() -> None:
         16,
         True,
     )
+
+    build_animation_assets()
 
     save_sheet_assets(
         "enemy-sheet",
@@ -189,4 +248,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--animations-only", action="store_true")
+    args = parser.parse_args()
+    build_animation_assets() if args.animations_only else main()
