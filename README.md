@@ -1,13 +1,20 @@
-# Gull Run
+# Gull Run: Evolution
 
-A mobile-friendly arcade game where a seagull flaps through a harbor and dodges moving boat traffic.
+A mobile-friendly canvas survival game where a hatchling eats, battles rival creatures, and evolves from seagull to sky dragon across coast, ocean, sky, and space.
 
 ## Controls
 
-- Tap or click to flap
-- Press Space on desktop
-- Dodge speedboats, sailboats, and fishing boats
-- High score saves on the device
-- Switch between seagull and brown-bird skins
+- Desktop: hold the mouse toward the direction you want to fly, or use WASD/arrow keys
+- Mobile: use the on-screen joystick
+- Release the controls and gravity pulls the player down
 
-Built as an original browser game with HTML5 Canvas and JavaScript.
+## Gameplay
+
+- Green sprite outlines identify food and enemies that can currently be eaten
+- Red sprite outlines identify dangerous enemies and obstacles
+- Every evolution requires 15 consumed foods or defeated enemies
+- The active evolution path has eight forms, each with professional sprite artwork
+- Hero birds and bird enemies use four-frame wing-flap animation
+- High score saves on the device
+
+Built as an original HTML5 Canvas and JavaScript game with transparent WebP sprites and procedural fallbacks.
