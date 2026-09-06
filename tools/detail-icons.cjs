@@ -1,5 +1,5 @@
 const fs=require('fs');
-for(const code of ['1f354','1f32d','1f355','26f5']){
+for(const code of ['1f354','1f32d','1f355','26f5','1fa99','1f48e']){
  let svg=fs.readFileSync(`assets/twemoji/${code}.svg`,'utf8');
  const colors=[...new Set([...svg.matchAll(/fill="(#[0-9A-Fa-f]{6})"/g)].map(m=>m[1]))];
  const mix=(c,n)=>'#'+c.slice(1).match(/../g).map(v=>Math.max(0,Math.min(255,parseInt(v,16)+n)).toString(16).padStart(2,'0')).join('');
