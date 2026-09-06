@@ -10,7 +10,7 @@
 #pause{position:fixed;right:16px;bottom:max(16px,calc(env(safe-area-inset-bottom) + 16px));z-index:12;min-width:96px;padding:10px 16px;background:#143c69;border:2px solid #9fd8ff;border-radius:14px;color:#fff;font-size:15px;font-weight:900;box-shadow:0 5px 0 #092340;pointer-events:auto}#pause[hidden]{display:none}#pause:active{transform:translateY(3px);box-shadow:0 2px 0 #092340}
 #pauseShade{position:fixed;inset:0;z-index:11;display:grid;place-items:center;background:#07132966;color:#fff;font-size:clamp(34px,8vw,72px);font-weight:1000;letter-spacing:.08em;text-shadow:0 4px 10px #071329;pointer-events:none}#pauseShade[hidden]{display:none}
 #overlay{position:fixed;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,#47a4ff 0%,#74d7ff 55%,#9ce890 100%);padding:18px}#overlay[hidden]{display:none}.card{max-width:430px;width:min(92vw,430px);background:#ffffffe8;border:4px solid #143c69;border-radius:24px;padding:20px;text-align:center;color:#143c69;box-shadow:0 12px 0 #143c69}.logo{display:block;width:100%;max-width:390px;height:auto;margin:0 auto 12px;border-radius:14px}p{font-weight:700;line-height:1.4}button{border:none;border-radius:14px;padding:12px 20px;background:#36bd5f;color:#fff;font-size:18px;font-weight:900;box-shadow:0 5px 0 #1c7a3b}button:disabled{opacity:.7;box-shadow:none}
-.small{font-size:12px;opacity:.8;margin-top:10px}@media(pointer:coarse){#joy{display:block}}@media(max-width:640px){.tip{bottom:max(82px,calc(env(safe-area-inset-bottom) + 82px));font-size:11px}.bars{width:min(330px,78vw)}}
+.small{font-size:12px;opacity:.8;margin-top:10px}.credit{font-size:10px;opacity:.65;margin-top:8px}.credit a{color:inherit}@media(pointer:coarse){#joy{display:block}}@media(max-width:640px){.tip{bottom:max(82px,calc(env(safe-area-inset-bottom) + 82px));font-size:11px}.bars{width:min(330px,78vw)}}
 </style></head><body>
 <canvas id="game"></canvas>
 <div id="hud" hidden><div class="top"><div class="badge">SCORE <span id="score">0</span></div><div class="badge center" id="stage">Gull</div><div class="badge right">BEST <span id="best">0</span></div></div>
@@ -19,7 +19,7 @@
 <div id="joy"><div id="knob"></div></div>
 <button id="pause" hidden aria-label="Pause game">PAUSE</button>
 <div id="pauseShade" hidden>PAUSED</div>
-<div id="overlay"><div class="card"><img class="logo" src="/assets/gull-run-evo-logo.jpeg" alt="Gull Run Evo"><p>Soar from the beach to outer space! Gobble snacks, collect treasure, dodge dangerous enemies, and evolve into the unstoppable Mech Dragon.</p><button id="play">PLAY</button><div class="small">Move with the joystick. Eat to evolve. Avoid red enemies. Collect coins and jewels to regain health.</div></div></div>
+<div id="overlay"><div class="card"><img class="logo" src="/assets/gull-run-evo-logo.jpeg" alt="Gull Run Evo"><p>Soar from the beach to outer space! Gobble snacks, collect treasure, dodge dangerous enemies, and evolve into the unstoppable Mech Dragon.</p><button id="play">PLAY</button><div class="small">Move with the joystick. Eat to evolve. Avoid red enemies. Collect coins and jewels to regain health.</div><div class="credit">Food, treasure and sailboat icons by <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a>, licensed under CC BY 4.0.</div></div></div>
 <script>
 (()=>{
 const canvas=document.getElementById('game'), ctx=canvas.getContext('2d');
