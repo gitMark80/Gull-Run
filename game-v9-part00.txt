@@ -19,7 +19,7 @@
 <div id="joy"><div id="knob"></div></div>
 <button id="pause" hidden aria-label="Pause game">PAUSE</button>
 <div id="pauseShade" hidden>PAUSED</div>
-<div id="overlay"><div class="card"><h1>GULL RUN<br>EVO</h1><p>Soar from the beach to outer space! Gobble snacks, collect treasure, dodge dangerous enemies, and evolve into the unstoppable Mech Dragon.</p><button id="play" disabled>LOADING ART…</button><div class="small">Move with joystick / WASD. Eat to evolve. Avoid red enemies. Boats stay in the water.</div></div></div>
+<div id="overlay"><div class="card"><h1>GULL RUN<br>EVO</h1><p>Soar from the beach to outer space! Gobble snacks, collect treasure, dodge dangerous enemies, and evolve into the unstoppable Mech Dragon.</p><button id="play" disabled>LOADING ART…</button><div class="small">Move with the joystick. Eat to evolve. Avoid red enemies. Collect coins and jewels to regain health.</div></div></div>
 <script>
 (()=>{
 const canvas=document.getElementById('game'), ctx=canvas.getContext('2d');
