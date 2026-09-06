@@ -59,6 +59,12 @@ const SPR={
  foodAtlas.onload=()=>{ foodReady=true; updateArtReady(); };
  healthAtlas.onload=()=>{ healthReady=true; updateArtReady(); };
  atlas.onerror=artFailed; flightAtlas.onerror=artFailed; backgroundAtlas.onerror=artFailed; hazardAtlas.onerror=artFailed; foodAtlas.onerror=artFailed; healthAtlas.onerror=artFailed;
+ if(atlas.complete) atlas.naturalWidth?atlas.onload():artFailed();
+ if(flightAtlas.complete) flightAtlas.naturalWidth?flightAtlas.onload():artFailed();
+ if(backgroundAtlas.complete) backgroundAtlas.naturalWidth?backgroundAtlas.onload():artFailed();
+ if(hazardAtlas.complete) hazardAtlas.naturalWidth?hazardAtlas.onload():artFailed();
+ if(foodAtlas.complete) foodAtlas.naturalWidth?foodAtlas.onload():artFailed();
+ if(healthAtlas.complete) healthAtlas.naturalWidth?healthAtlas.onload():artFailed();
  addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); if((k==='p'||k==='escape')&&!e.repeat){ togglePause(); e.preventDefault(); return; } keys[k]=1; if(e.key.startsWith('Arrow')) e.preventDefault();}); addEventListener('keyup',e=>keys[e.key.toLowerCase()]=0);
  let joystick={x:0,y:0}, joyId=null; function moveJoy(e){ const r=joy.getBoundingClientRect(); let dx=e.clientX-r.left-r.width/2, dy=e.clientY-r.top-r.height/2; const m=Math.hypot(dx,dy)||1, lim=36, used=Math.min(lim,m); joystick.x=dx/m*used/lim; joystick.y=dy/m*used/lim; knob.style.transform=`translate(${joystick.x*34}px,${joystick.y*34}px)`; } joy.addEventListener('pointerdown',e=>{joyId=e.pointerId; joy.setPointerCapture(joyId); moveJoy(e);}); joy.addEventListener('pointermove',e=>{if(e.pointerId===joyId) moveJoy(e);}); function endJoy(e){ if(e.pointerId!==joyId) return; joyId=null; joystick.x=joystick.y=0; knob.style.transform='translate(0,0)'; } joy.addEventListener('pointerup',endJoy); joy.addEventListener('pointercancel',endJoy);
  let mouse={on:false,x:0,y:0}; canvas.addEventListener('pointerdown',e=>{ if(e.pointerType==='mouse'){ mouse.on=true; mouse.x=e.clientX; mouse.y=e.clientY; } }); canvas.addEventListener('pointermove',e=>{ if(e.pointerType==='mouse'){ mouse.x=e.clientX; mouse.y=e.clientY; } }); canvas.addEventListener('pointerup',()=>mouse.on=false); canvas.addEventListener('pointercancel',()=>mouse.on=false);
