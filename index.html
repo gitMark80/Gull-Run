@@ -12,7 +12,7 @@
   Loading Gull Run: Evo…
   <script>
     const gameParts=["game-v9-part00.txt","game-v9-part01.txt","game-v9-part02.txt","game-v9-part03.txt","game-v9-part04.txt","game-v9-part05.txt","game-v9-part06.txt","game-v9-part07.txt","game-v9-part08.txt","game-v9-part09.txt","game-v9-part10.txt","game-v9-part11.txt","game-v9-part12.txt"];
-    Promise.all(gameParts.map(path=>fetch(path,{cache:'no-store'}).then(response=>{
+    Promise.all(gameParts.map(path=>fetch(path).then(response=>{
       if(!response.ok) throw new Error(`Failed to load ${path}`);
       return response.text();
     }))).then(parts=>{
