@@ -7,11 +7,11 @@ function foodSet(){const n=typeof level==='number'?level:0;return FOOD_SETS[Math
 function pickFood(){const a=foodSet(),r=Math.random();return a[r<.4?0:r<.8?1:2]}
 makeFood=function(){const n=typeof level==='number'?level:0,type=pickFood(),rare=FOOD_RARE[Math.max(0,Math.min(FOOD_RARE.length-1,n))]===type;let p={x:90,y:300},gap=-1;for(let i=0;i<36;i++){const q={x:rand(90,WORLD.w-90),y:rand(260,Math.min(WORLD.h-100,1080))},g=foods.length?foods.reduce((m,f)=>Math.min(m,dist(q,f)),Infinity):Infinity;if(g>gap){p=q;gap=g}if(g>=150)break}return{type,...p,r:rare?24:20,score:rare?25:10+(Math.random()*8|0),xp:rare?2:1,phase:rand(0,10),rare}};
 
-// Pre-render each food once with a true green silhouette outline. This keeps the
-// detailed art and green edible edge while avoiding per-frame shadow blur/double draws.
+// Pre-render each food once with a true green silhouette outline. No circle fallback.
 const FOOD_CACHE={};
-function cacheFood(type,rare=false){const key=type+(rare?'R':'N');if(FOOD_CACHE[key])return FOOD_CACHE[key];const cell=FOOD_SPRITES[type];if(!cell||!FOOD_ATLAS.complete||!FOOD_ATLAS.naturalWidth)return null;const pad=14,z=128,c=document.createElement('canvas');c.width=c.height=z;const g=c.getContext('2d'),sx=cell[0]*C,sy=cell[1]*C,dx=(z-C)/2,dy=(z-C)/2;
+function cacheFood(type,rare=false){const key=type+(rare?'R':'N');if(FOOD_CACHE[key])return FOOD_CACHE[key];const cell=FOOD_SPRITES[type];if(!cell||!FOOD_ATLAS.complete||!FOOD_ATLAS.naturalWidth)return null;const z=128,c=document.createElement('canvas');c.width=c.height=z;const g=c.getContext('2d'),sx=cell[0]*C,sy=cell[1]*C,dx=(z-C)/2,dy=(z-C)/2;
  const mask=document.createElement('canvas');mask.width=mask.height=z;const m=mask.getContext('2d');m.drawImage(FOOD_ATLAS,sx,sy,C,C,dx,dy,C,C);m.globalCompositeOperation='source-in';m.fillStyle='#45ff68';m.fillRect(0,0,z,z);m.globalCompositeOperation='source-over';
- for(const [ox,oy] of [[-5,0],[5,0],[0,-5],[0,5],[-4,-4],[4,-4],[-4,4],[4,4]])g.drawImage(mask,ox,oy);g.drawImage(FOOD_ATLAS,sx,sy,C,C,dx,dy,C,C);if(rare){g.strokeStyle='rgba(255,225,105,.95)';g.lineWidth=3;g.beginPath();g.arc(z/2,z/2,50,0,Math.PI*2);g.stroke()}return FOOD_CACHE[key]=c;}
-const oldFoodDraw=drawFood;drawFood=function(f){const cached=cacheFood(f.type,!!f.rare);if(!cached)return oldFoodDraw(f);const q=screen(f),bob=Math.sin(time*2.15+(f.phase||0))*3,size=68*(f.rare?1.1:1);ctx.drawImage(cached,q.x-size/2,q.y+bob-size/2,size,size)};
+ for(const [ox,oy] of [[-5,0],[5,0],[0,-5],[0,5],[-4,-4],[4,-4],[-4,4],[4,4]])g.drawImage(mask,ox,oy);g.drawImage(FOOD_ATLAS,sx,sy,C,C,dx,dy,C,C);return FOOD_CACHE[key]=c;}
+// Never call the old placeholder renderer. If the atlas is still loading, skip that frame.
+drawFood=function(f){const cached=cacheFood(f.type,!!f.rare);if(!cached)return;const q=screen(f),bob=Math.sin(time*2.15+(f.phase||0))*3,size=68*(f.rare?1.1:1);ctx.drawImage(cached,q.x-size/2,q.y+bob-size/2,size,size)};
 FOOD_ATLAS.onload=()=>{for(const set of FOOD_SETS)for(const type of set){cacheFood(type,false);cacheFood(type,true)}};
