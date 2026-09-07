@@ -1,33 +1,61 @@
-// Gull Run Evo — stage-specific original collectible art.
+// Gull Run Evo — stage-specific evolution foods using original food artwork.
 const FOOD_SETS=[
- ['hotdog','burger','pizza'],['pizza','hotdog','burger'],['sausageRoll','meatPie','avocadoToast'],
- ['croissant','macaron','baguette'],['gelato','pasta','cannoli'],['cheese','chocolate','bread'],
- ['pretzel','bratwurst','chicken'],['tea','scone','fishChips'],['onigiri','sushi','ramen'],
- ['dates','baklava','shawarma'],['dumpling','bao','noodles'],['dates','fig','teaGlass'],
- ['banana','pineapple','acai'],['taco','avocado','smoothie']
+ ['hotdog','burger','pizza'],
+ ['pizza','hotdog','burger'],
+ ['sausageRoll','meatPie','avocadoToast'],
+ ['croissant','macaron','baguette'],
+ ['gelato','pasta','cannoli'],
+ ['cheese','chocolate','bread'],
+ ['pretzel','bratwurst','chicken'],
+ ['tea','scone','fishChips'],
+ ['onigiri','sushi','ramen'],
+ ['dates','baklava','shawarma'],
+ ['dumpling','bao','noodles'],
+ ['dates','fig','teaGlass'],
+ ['banana','pineapple','acai'],
+ ['taco','avocado','smoothie']
 ];
 const FOOD_RARE=['pizza','burger','meatPie','baguette','cannoli','bread','chicken','fishChips','ramen','shawarma','noodles','teaGlass','acai','smoothie'];
-function foodSet(){return FOOD_SETS[Math.max(0,Math.min(FOOD_SETS.length-1,level||0))]||FOOD_SETS[0]}
+const FOOD_ATLAS=new Image();
+FOOD_ATLAS.src='food-atlas.webp';
+const C=100;
+const FOOD_SPRITES={
+ croissant:[0,0],macaron:[1,0],baguette:[2,0],gelato:[3,0],pasta:[4,0],cannoli:[5,0],cheese:[6,0],chocolate:[7,0],
+ bread:[0,1],pretzel:[1,1],bratwurst:[2,1],chicken:[3,1],tea:[4,1],scone:[5,1],fishChips:[6,1],onigiri:[7,1],
+ sushi:[0,2],ramen:[1,2],dates:[2,2],baklava:[3,2],shawarma:[4,2],pizza:[5,2],hotdog:[6,2],burger:[7,2],
+ sausageRoll:[0,3],meatPie:[1,3],avocadoToast:[2,3],banana:[3,3],pineapple:[4,3],acai:[5,3],taco:[6,3],avocado:[7,3],
+ smoothie:[0,4],dumpling:[1,4],bao:[2,4],noodles:[3,4],fig:[4,4],teaGlass:[5,4]
+};
+const FOOD_SCALE={
+ baguette:1.12,gelato:1.04,pasta:1.10,cannoli:1.06,bread:1.08,bratwurst:1.08,chicken:1.08,tea:1.03,
+ fishChips:1.10,ramen:1.10,shawarma:1.08,sausageRoll:1.08,meatPie:1.08,avocadoToast:1.06,pineapple:1.04,
+ acai:1.08,taco:1.08,smoothie:1.05,noodles:1.10,teaGlass:1.04
+};
+function foodSet(){const n=typeof level==='number'?level:0;return FOOD_SETS[Math.max(0,Math.min(FOOD_SETS.length-1,n))]||FOOD_SETS[0]}
 function pickFood(){const a=foodSet(),r=Math.random();return a[r<.4?0:r<.8?1:2]}
-makeFood=function(){const type=pickFood(),rare=FOOD_RARE[Math.max(0,Math.min(FOOD_RARE.length-1,level||0))]===type;let p={x:90,y:300},gap=-1;for(let i=0;i<80;i++){const q={x:rand(90,WORLD.w-90),y:rand(300,1080)},g=foods.reduce((n,f)=>Math.min(n,dist(q,f)),Infinity);if(g>gap){p=q;gap=g}if(g>=150)break}return{type,...p,r:rare?23:19,score:rare?25:10+(Math.random()*8|0),xp:rare?2:1,phase:rand(0,10),rare}}
-function rr(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}function el(x,y,rx,ry){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2)}function cc(x,y,r){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2)}
-function bun(sausage=false){ctx.fillStyle='#e7a24e';rr(-21,-10,42,20,9);ctx.fill();ctx.stroke();if(sausage){ctx.fillStyle='#cf4b39';rr(-17,-5,34,10,7);ctx.fill();ctx.strokeStyle='#f5ce36';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-11,-1);ctx.bezierCurveTo(-7,-7,-2,5,3,-1);ctx.bezierCurveTo(7,-6,10,4,14,-1);ctx.stroke()}}
-function burger(){ctx.fillStyle='#e8a34b';rr(-18,-15,36,9,7);ctx.fill();ctx.fillStyle='#55b64a';rr(-15,-7,30,4,2);ctx.fill();ctx.fillStyle='#6b3a22';rr(-15,-3,30,7,3);ctx.fill();ctx.fillStyle='#f0cb4a';rr(-12,3,24,5,2);ctx.fill();ctx.fillStyle='#e8a34b';rr(-18,7,36,9,7);ctx.fill();ctx.stroke()}
-function pizza(){ctx.fillStyle='#edc16b';ctx.beginPath();ctx.moveTo(-18,-13);ctx.lineTo(21,0);ctx.lineTo(-10,19);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='#f3da62';ctx.beginPath();ctx.moveTo(-14,-9);ctx.lineTo(14,0);ctx.lineTo(-8,13);ctx.closePath();ctx.fill();ctx.fillStyle='#b93631';for(const p of [[-4,-2],[6,2],[-1,8]]){cc(p[0],p[1],3);ctx.fill()}}
-function loaf(kind='bread'){ctx.fillStyle=kind==='chocolate'?'#744024':'#d39345';rr(-20,-10,40,20,8);ctx.fill();ctx.stroke();ctx.strokeStyle=kind==='chocolate'?'#a76842':'#f0d18a';ctx.lineWidth=2;for(let x=-10;x<15;x+=9){ctx.beginPath();ctx.moveTo(x,-8);ctx.lineTo(x-5,8);ctx.stroke()}}
-function pastry(kind){const col=kind==='macaron'?'#ed6f91':kind==='baklava'?'#d49b45':'#d79142';ctx.fillStyle=col;if(kind==='pretzel'){ctx.strokeStyle=col;ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(-11,-1);ctx.bezierCurveTo(-23,-18,-4,-21,0,-4);ctx.bezierCurveTo(4,-21,23,-18,11,-1);ctx.bezierCurveTo(3,9,3,15,0,7);ctx.bezierCurveTo(-3,15,-3,9,-11,-1);ctx.stroke();return}if(kind==='croissant'){el(-5,0,17,11);ctx.fill();el(8,-1,11,8);ctx.fill();return}if(kind==='macaron'){rr(-15,-11,30,8,6);ctx.fill();rr(-15,3,30,8,6);ctx.fill();ctx.fillStyle='#ffe2e8';rr(-14,-4,28,7,3);ctx.fill();return}el(0,0,17,12);ctx.fill();ctx.stroke()}
-function bowl(kind){ctx.fillStyle=kind==='acai'?'#6b355d':'#f1f3f5';ctx.beginPath();ctx.moveTo(-18,-2);ctx.lineTo(18,-2);ctx.lineTo(12,15);ctx.lineTo(-12,15);ctx.closePath();ctx.fill();ctx.stroke();if(kind==='acai'){ctx.fillStyle='#7b1e78';el(0,-4,14,6);ctx.fill();ctx.fillStyle='#f6dc7b';for(const p of [[-7,-5],[0,-7],[7,-4]]){cc(p[0],p[1],3);ctx.fill()};return}ctx.fillStyle='#e6b948';ctx.lineWidth=2.5;ctx.strokeStyle='#e6b948';for(let x=-10;x<12;x+=5){ctx.beginPath();ctx.arc(x,-2,7,.1*Math.PI,.9*Math.PI);ctx.stroke()}if(kind==='pasta'){ctx.fillStyle='#c94434';el(0,-4,13,5);ctx.fill()}if(kind==='ramen'||kind==='noodles'){ctx.fillStyle='#fff';cc(9,-5,4);ctx.fill();ctx.fillStyle='#edc53e';cc(9,-5,2.3);ctx.fill()}}
-function cup(glass=false){if(glass){ctx.fillStyle='#a94726';ctx.beginPath();ctx.moveTo(-9,-13);ctx.lineTo(9,-13);ctx.lineTo(7,13);ctx.lineTo(-7,13);ctx.closePath();ctx.fill();ctx.stroke();return}ctx.fillStyle='#f5f7fb';rr(-15,-7,23,17,5);ctx.fill();ctx.stroke();ctx.beginPath();ctx.arc(10,1,6,-1.2,1.2);ctx.stroke();ctx.fillStyle='#9a562d';rr(-13,-5,19,7,3);ctx.fill()}
-function cone(kind){ctx.fillStyle='#d29b54';ctx.beginPath();ctx.moveTo(0,18);ctx.lineTo(-9,-4);ctx.lineTo(9,-4);ctx.closePath();ctx.fill();ctx.stroke();if(kind==='gelato'){for(const a of [[-6,-9,'#f4e2af'],[0,-13,'#83ce64'],[7,-8,'#ed5d88']]){ctx.fillStyle=a[2];cc(a[0],a[1],7);ctx.fill()}}}
-function wrap(){ctx.fillStyle='#e8c694';ctx.beginPath();ctx.moveTo(-17,-12);ctx.lineTo(16,-8);ctx.lineTo(8,17);ctx.lineTo(-12,14);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='#74411f';rr(-6,-4,12,12,3);ctx.fill();ctx.fillStyle='#56b84a';rr(-2,-7,9,4,2);ctx.fill()}
-function fruit(kind){if(kind==='banana'){ctx.strokeStyle='#edc536';ctx.lineWidth=8;ctx.beginPath();ctx.arc(-3,2,16,.2,2.2);ctx.stroke();return}if(kind==='pineapple'){ctx.fillStyle='#ecc64d';el(0,2,13,15);ctx.fill();ctx.stroke();ctx.strokeStyle='#58aa4d';ctx.lineWidth=3;for(const x of [-5,0,5]){ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(x,-23);ctx.stroke()}return}if(kind==='avocado'){ctx.fillStyle='#3f6334';el(0,0,14,19);ctx.fill();ctx.fillStyle='#b8d461';el(0,0,10,15);ctx.fill();ctx.fillStyle='#955b2e';cc(0,4,5);ctx.fill();return}if(kind==='fig'){ctx.fillStyle='#71357c';el(-5,0,10,13);ctx.fill();ctx.fillStyle='#cf4854';el(7,2,9,11);ctx.fill();return}ctx.fillStyle='#814526';for(const p of [[-8,-4],[3,2],[12,-5]]){el(p[0],p[1],6,10);ctx.fill()}}
-function triangle(kind){ctx.fillStyle=kind==='onigiri'?'#fafafa':'#edc995';ctx.beginPath();ctx.moveTo(0,-18);ctx.lineTo(-16,12);ctx.lineTo(16,12);ctx.closePath();ctx.fill();ctx.stroke();if(kind==='onigiri'){ctx.fillStyle='#23303e';rr(-8,4,16,8,2);ctx.fill()}}
-function sushi(){ctx.fillStyle='#f8f8f3';for(const x of [-10,10]){rr(x-8,-2,16,11,4);ctx.fill()}ctx.fillStyle='#f26c57';el(-10,-6,9,5);ctx.fill();ctx.fillStyle='#ef5260';el(10,-6,8,5);ctx.fill()}
-function tube(){ctx.save();ctx.rotate(-.15);ctx.fillStyle='#ad6a31';rr(-18,-8,36,16,8);ctx.fill();ctx.stroke();ctx.fillStyle='#fff4e6';for(const x of [-18,18]){cc(x,0,6);ctx.fill()}ctx.restore()}
-function fishChips(){ctx.fillStyle='#ece1c4';ctx.beginPath();ctx.moveTo(-17,12);ctx.lineTo(-6,-15);ctx.lineTo(19,11);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='#efbf45';for(let x=-8;x<8;x+=6){rr(x,-8,4,13,1);ctx.fill()}ctx.fillStyle='#c98d3b';el(8,-1,8,12);ctx.fill()}
-function drum(){ctx.fillStyle='#a95d2e';el(-4,1,15,11);ctx.fill();ctx.stroke();ctx.fillStyle='#eee6d9';rr(9,-3,11,6,3);ctx.fill()}
-function taco(){ctx.fillStyle='#edbd59';ctx.beginPath();ctx.moveTo(-16,-8);ctx.quadraticCurveTo(0,-18,16,-8);ctx.lineTo(16,10);ctx.quadraticCurveTo(0,2,-16,10);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='#65b94c';rr(-12,-5,24,4,2);ctx.fill();ctx.fillStyle='#74411f';rr(-10,0,20,6,2);ctx.fill()}
-function smoothie(){ctx.fillStyle='#ed6aa1';ctx.beginPath();ctx.moveTo(-12,-12);ctx.lineTo(12,-12);ctx.lineTo(9,14);ctx.lineTo(-9,14);ctx.closePath();ctx.fill();ctx.stroke();ctx.strokeStyle='#55c94e';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(3,-19);ctx.lineTo(7,-5);ctx.stroke()}
-function toast(){ctx.fillStyle='#bb8041';rr(-18,-12,36,24,5);ctx.fill();ctx.stroke();ctx.fillStyle='#73c656';rr(-13,-7,26,14,4);ctx.fill();ctx.fillStyle='#c43d3b';for(const p of [[4,-1],[-3,3]]){cc(p[0],p[1],3);ctx.fill()}}
-function drawStageFood(t){switch(t){case'hotdog':case'bratwurst':bun(true);break;case'burger':burger();break;case'pizza':pizza();break;case'croissant':case'macaron':case'pretzel':case'scone':case'baklava':case'meatPie':pastry(t);break;case'baguette':case'bread':case'chocolate':case'sausageRoll':loaf(t);break;case'gelato':cone(t);break;case'pasta':case'ramen':case'noodles':case'acai':bowl(t);break;case'cannoli':tube();break;case'cheese':ctx.fillStyle='#edc74c';ctx.beginPath();ctx.moveTo(-18,14);ctx.lineTo(-18,-12);ctx.lineTo(18,-2);ctx.lineTo(18,14);ctx.closePath();ctx.fill();ctx.stroke();break;case'chicken':drum();break;case'tea':cup(false);break;case'teaGlass':cup(true);break;case'fishChips':fishChips();break;case'onigiri':triangle(t);break;case'sushi':sushi();break;case'dates':case'fig':case'banana':case'pineapple':case'avocado':fruit(t);break;case'shawarma':wrap();break;case'dumpling':case'bao':ctx.fillStyle=t==='bao'?'#f5f0e6':'#e8c995';el(0,2,16,13);ctx.fill();ctx.stroke();break;case'taco':taco();break;case'smoothie':smoothie();break;case'avocadoToast':toast();break;default:bun(false)}}
-const oldFoodDraw=drawFood;drawFood=function(f){if(!FOOD_SETS.flat().includes(f.type))return oldFoodDraw(f);const q=screen(f),bob=Math.sin(time*2.5+(f.phase||0))*4;ctx.save();ctx.translate(q.x,q.y+bob);ctx.scale(f.rare?1.22:1.08,f.rare?1.22:1.08);ctx.strokeStyle='#66ff78';ctx.lineWidth=3;ctx.shadowColor='#54ff70';ctx.shadowBlur=8;drawStageFood(f.type);if(f.rare){ctx.shadowBlur=0;ctx.strokeStyle='rgba(255,225,105,.85)';ctx.lineWidth=1.5;cc(0,0,24);ctx.stroke()}ctx.restore()};
+makeFood=function(){
+ const n=typeof level==='number'?level:0,type=pickFood(),rare=FOOD_RARE[Math.max(0,Math.min(FOOD_RARE.length-1,n))]===type;
+ let p={x:90,y:300},gap=-1;
+ for(let i=0;i<80;i++){
+  const q={x:rand(90,WORLD.w-90),y:rand(260,Math.min(WORLD.h-100,1080))};
+  const g=foods.length?foods.reduce((m,f)=>Math.min(m,dist(q,f)),Infinity):Infinity;
+  if(g>gap){p=q;gap=g} if(g>=150)break;
+ }
+ return{type,...p,r:rare?25:21,score:rare?25:10+(Math.random()*8|0),xp:rare?2:1,phase:rand(0,10),rare};
+};
+const oldFoodDraw=drawFood;
+function drawFoodOutline(img,sx,sy,sw,sh,dw,dh){
+ ctx.save();ctx.globalAlpha=.95;ctx.shadowColor='#54ff70';ctx.shadowBlur=9;
+ ctx.drawImage(img,sx,sy,sw,sh,-dw/2,-dh/2,dw,dh);ctx.shadowBlur=0;ctx.globalAlpha=1;ctx.restore();
+}
+drawFood=function(f){
+ const cell=FOOD_SPRITES[f.type];
+ if(!cell||!FOOD_ATLAS.complete||!FOOD_ATLAS.naturalWidth)return oldFoodDraw(f);
+ const q=screen(f),bob=Math.sin(time*2.35+(f.phase||0))*4,scale=(FOOD_SCALE[f.type]||1)*(f.rare?1.12:1);
+ const size=72*scale,sx=cell[0]*C,sy=cell[1]*C;
+ ctx.save();ctx.translate(q.x,q.y+bob);
+ drawFoodOutline(FOOD_ATLAS,sx,sy,C,C,size,size);
+ ctx.drawImage(FOOD_ATLAS,sx,sy,C,C,-size/2,-size/2,size,size);
+ if(f.rare){ctx.strokeStyle='rgba(255,225,105,.92)';ctx.lineWidth=2;ctx.shadowColor='#ffe16a';ctx.shadowBlur=6;ctx.beginPath();ctx.arc(0,0,size*.42,0,Math.PI*2);ctx.stroke();ctx.shadowBlur=0;}
+ ctx.restore();
+};
