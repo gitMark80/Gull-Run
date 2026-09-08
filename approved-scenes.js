@@ -4,7 +4,7 @@ const approvedWtBackground=wtBackground;
 const PARIS_BG=new Image();
 let PARIS_BG_READY=false;
 PARIS_BG.onload=()=>{PARIS_BG_READY=true;};
-PARIS_BG.src='assets/levels/paris-illustrated.svg';
+PARIS_BG.src='assets/levels/paris-illustrated.svg?v=20260907c';
 function approvedParis(){
   if(PARIS_BG_READY){
     ctx.drawImage(PARIS_BG,-cam.x,-cam.y,WORLD.w,WORLD.h);
