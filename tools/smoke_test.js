@@ -7,9 +7,15 @@ const vm = require('vm');
 const root = path.resolve(__dirname, '..');
 const shell = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const partPaths = Array.from({ length: 13 }, (_, index) => path.join(root, `game-v9-part${String(index).padStart(2, '0')}.txt`));
-const html = partPaths.every(fs.existsSync)
+const baseHtml = partPaths.every(fs.existsSync)
   ? partPaths.map(file => fs.readFileSync(file, 'utf8')).join('')
   : shell;
+const expansionPaths = ['worldtour-expansion.js', 'approved-scenes.js', 'stage-foods.js', 'performance-patch.js'];
+const closingIife = '})();';
+const injectionPoint = baseHtml.lastIndexOf(closingIife);
+if (injectionPoint < 0) throw new Error('Game injection point not found');
+const expansions = expansionPaths.map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+const html = baseHtml.slice(0, injectionPoint) + expansions + '\n' + baseHtml.slice(injectionPoint);
 const script = html.match(/<script>([\s\S]*)<\/script>/)?.[1];
 if (!script) throw new Error('Inline game script not found');
 
@@ -77,7 +83,8 @@ class MockImage {
 
   set src(value) {
     this._src = value;
-    const exists = value.startsWith('data:') || fs.existsSync(path.join(root, value));
+    const cleanValue = value.split(/[?#]/, 1)[0].replace(/^\/+/, '');
+    const exists = value.startsWith('data:') || fs.existsSync(path.join(root, cleanValue));
     this.complete = true;
     this.naturalWidth = exists ? 512 : 0;
     this.naturalHeight = exists ? 512 : 0;
@@ -102,6 +109,7 @@ const sandbox = {
   innerWidth: 390,
   innerHeight: 844,
   devicePixelRatio: 1,
+  matchMedia: () => ({ matches: true }),
   addEventListener() {},
   requestAnimationFrame(callback) { frame = callback; },
   localStorage: {
