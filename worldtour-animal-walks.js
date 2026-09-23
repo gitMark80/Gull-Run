@@ -30,6 +30,16 @@ const WT_ANIMAL_LOOK={
   seaLion: {coat:'#876450',light:'#bc9680',dark:'#493930',muzzle:'#c6a891',ear:'none',tail:'none',bodyW:52,bodyH:28,bodyY:75,headY:62,flippers:true}
 };
 const WT_ANIMAL_ATLASES=new Map();
+const WT_PAINTED_ATLASES=new Map();
+const WT_PAINTED_FRAME={width:384,height:288};
+
+function wtPaintedAtlas(type){
+  if(WT_PAINTED_ATLASES.has(type))return WT_PAINTED_ATLASES.get(type);
+  const image=new Image();
+  WT_PAINTED_ATLASES.set(type,image);
+  image.src=`assets/animal-sprites/${type}.webp?v=20260923c`;
+  return image;
+}
 
 function wtAnimalEllipse(g,x,y,rx,ry,fill,outline='#283440',width=2.5){
   g.beginPath();g.ellipse(x,y,rx,ry,0,0,Math.PI*2);g.fillStyle=fill;g.fill();
@@ -181,13 +191,21 @@ function wtAnimalAtlas(kind){
 const wtPreviousGroundDraw=drawGroundEnemy;
 drawGroundEnemy=function(animal){
   if(!WT_ANIMAL_SPECIES[animal.kind])return wtPreviousGroundDraw(animal);
-  const position=screen(animal),sprite=wtAnimalAtlas(animal.kind),speed=Math.abs(animal.vx);
+  const position=screen(animal),type=WT_ANIMAL_SPECIES[animal.kind];
+  const painted=type!=='rat'?wtPaintedAtlas(type):null;
+  const ready=painted&&painted.complete&&painted.naturalWidth>=WT_PAINTED_FRAME.width*4;
+  const sprite=ready?painted:wtAnimalAtlas(animal.kind),speed=Math.abs(animal.vx);
   const fps=speed<1?0:clamp(speed/8,3.2,4.4);
   const frame=(Math.floor(time*fps+animal.phase)%4+4)%4;
   ctx.save();ctx.translate(position.x,position.y);
   if(animal.vx<0)ctx.scale(-1,1);
   ctx.shadowColor=player&&player.stage===6?'#55ff72':'#ff405a';
   ctx.shadowBlur=8;
-  ctx.drawImage(sprite,frame*176,0,176,152,-animal.size*.66,-animal.size*.47,animal.size*1.32,animal.size*1.1875);
+  if(ready){
+    const h=animal.size*1.23,w=h*WT_PAINTED_FRAME.width/WT_PAINTED_FRAME.height;
+    ctx.drawImage(sprite,frame*WT_PAINTED_FRAME.width,0,WT_PAINTED_FRAME.width,WT_PAINTED_FRAME.height,-w/2,-animal.size*.49,w,h);
+  }else{
+    ctx.drawImage(sprite,frame*176,0,176,152,-animal.size*.66,-animal.size*.47,animal.size*1.32,animal.size*1.1875);
+  }
   ctx.restore();
 };
