@@ -10,7 +10,7 @@ const partPaths = Array.from({ length: 13 }, (_, index) => path.join(root, `game
 const baseHtml = partPaths.every(fs.existsSync)
   ? partPaths.map(file => fs.readFileSync(file, 'utf8')).join('')
   : shell;
-const expansionPaths = ['worldtour-expansion.js', 'approved-scenes.js', 'stage-foods.js', 'performance-patch.js'];
+const expansionPaths = ['worldtour-expansion.js', 'approved-scenes.js', 'stage-foods.js', 'performance-patch.js', 'developer-stage.js'];
 const closingIife = '})();';
 const injectionPoint = baseHtml.lastIndexOf(closingIife);
 if (injectionPoint < 0) throw new Error('Game injection point not found');
@@ -49,6 +49,8 @@ function makeNode(selector = '') {
       contains: value => classes.has(value),
     },
     addEventListener() {},
+    appendChild() {},
+    insertBefore() {},
     setAttribute() {},
     setPointerCapture() {},
     getBoundingClientRect: () => ({ left: 0, top: 0, width: 108, height: 108 }),
@@ -69,8 +71,7 @@ const document = {
     return this.querySelector(`#${id}`);
   },
   createElement(tag) {
-    if (tag !== 'canvas') throw new Error(`Unexpected element: ${tag}`);
-    return makeNode('canvas');
+    return makeNode(tag);
   },
 };
 
@@ -110,6 +111,8 @@ const sandbox = {
   innerHeight: 844,
   devicePixelRatio: 1,
   matchMedia: () => ({ matches: true }),
+  location: { search: process.argv.includes('--dev') ? '?dev=1&stage=tokyo' : '' },
+  URLSearchParams,
   addEventListener() {},
   requestAnimationFrame(callback) { frame = callback; },
   localStorage: {
@@ -133,5 +136,18 @@ setImmediate(() => {
   if (!nodes.get('#overlay').hidden) throw new Error('Play overlay stayed open');
   if (nodes.get('#hud').hidden) throw new Error('HUD stayed hidden');
   if (/Young Gull|Falcon/.test(script)) throw new Error('Removed characters remain active');
+  if (process.argv.includes('--dev')) {
+    if (sandbox.gullRunDev.currentStage() !== '9. TOKYO') throw new Error('Developer start at Tokyo failed');
+    if (!nodes.get('.tip').textContent.includes('TOKYO')) throw new Error('HUD did not update after starting Tokyo');
+    if (!sandbox.gullRunDev.jumpTo('ROME') || sandbox.gullRunDev.currentStage() !== '5. ROME') throw new Error('Developer jump to Rome failed');
+    if (!nodes.get('.tip').textContent.includes('ROME')) throw new Error('HUD did not update after jumping to Rome');
+    frame?.(48);
+    if (!sandbox.gullRunDev.jumpTo(1) || sandbox.gullRunDev.currentStage() !== '1. COAST') throw new Error('Developer return to Coast failed');
+    if (sandbox.gullRunDev.jumpTo('unknown')) throw new Error('Invalid developer stage accepted');
+    if (nodes.get('#xpText').textContent !== '0 / 15') throw new Error('Developer jump did not reset evolution');
+    console.log('Gull Run developer stage test passed: start at Tokyo, jump to Rome and Coast, reset evolution.');
+    return;
+  }
+  if (sandbox.gullRunDev) throw new Error('Developer control leaked into the normal game');
   console.log('Gull Run smoke test passed: assets load, game starts, frames render, progression is 15 meals.');
 });
