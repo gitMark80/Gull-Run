@@ -10,7 +10,7 @@ const partPaths = Array.from({ length: 13 }, (_, index) => path.join(root, `game
 const baseHtml = partPaths.every(fs.existsSync)
   ? partPaths.map(file => fs.readFileSync(file, 'utf8')).join('')
   : shell;
-const expansionPaths = ['worldtour-expansion.js', 'approved-scenes.js', 'stage-foods.js', 'performance-patch.js', 'developer-stage.js'];
+const expansionPaths = ['worldtour-expansion.js', 'worldtour-animal-walks.js', 'approved-scenes.js', 'stage-foods.js', 'performance-patch.js', 'developer-stage.js'];
 const closingIife = '})();';
 const injectionPoint = baseHtml.lastIndexOf(closingIife);
 if (injectionPoint < 0) throw new Error('Game injection point not found');
