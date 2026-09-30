@@ -1,0 +1,23 @@
+{
+  "name": "primary",
+  "version": "1.0.0",
+  "description": "A mobile-friendly canvas survival game where a hatchling eats, battles rival creatures, and evolves from seagull to sky dragon across coast, ocean, sky, and space.",
+  "main": "approved-scenes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitMark80/Gull-Run.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gitMark80/Gull-Run/issues"
+  },
+  "homepage": "https://github.com/gitMark80/Gull-Run#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
